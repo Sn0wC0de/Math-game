@@ -15,8 +15,8 @@
         </div>
 
         <!-- splash page -->
-        <div class="card" id="splash-page" hidden>  
-            <div id="start-form">
+        <div class="card" id="splash-page">  
+            <form id="start-form">
                   <div class="selection-container">
                       <!-- 10 question radio input -->
                         <div class="radio-container">
@@ -63,41 +63,41 @@
                             <button class="start" type="submit">Start Round</button>
                         </div>
                   </div>
-            </div>
+                </form>
         </div>
 
     <!-- Countdown page -->
         <div class="card" id="countdown-page" hidden>
-            <h1 class="countdown"> 3 </h1>
+            <h1 class="countdown"></h1>
         </div>
         <!-- game page -->
-        <div class="card" id="game-page">
+        <div class="card" id="game-page" hidden>
             <!-- item container  -->
-            <div class="selected-item"></div>
-            <div class="item">
-                <h1>3x3=30</h1>
-            </div>
-            <div class="item">
-                <h1>3x3=30</h1>
-            </div>
-            <div class="item">
-                <h1>3x3=30</h1>
-            </div>
-            <div class="item">
-                <h1>3x3=30</h1>
-            </div>
-            <div class="item">
-                <h1>3x3=30</h1>
-            </div>
-            <div class="item">
-                <h1>3x3=30</h1>
-            </div>
-        </div>
+            <div class="item-container"></div>
+       
         <!-- Right/wrong buttons -->
-    
+        <div class="item-footer">
+            <button class="wrong">Wrong</button>
+            <button class="right">Right</button>
+        </div>
+    </div>
+
+    <!-- Score Page -->
+    <div class="card" id="score-page" hidden>
+        <div class="score-container">
+            <h1 class="title">Your Time</h1>
+            <h1 class="final-time">3.4s</h1>
+            <h1 class="base-time">Base Time: 2.4s</h1>
+            <h1 class="penalty-time">Penalty: +1.0s</h1>
+        </div>
+        <!-- play again button -->
+        <div class="score-footer">
+            <button class="play-again">PLay Again</button>
+        </div>
+    </div>
+
 
     </div>
-    
     </div>
     <!-- Script -->
     <script src="script.js"></script>

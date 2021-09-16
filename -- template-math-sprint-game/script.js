@@ -20,6 +20,7 @@ const playAgainBtn = document.querySelector('.play-again');
 
 // Equations
 
+let questionAmount = 0;
 let equationsArray = [];
 
 // Game Page
@@ -82,3 +83,72 @@ function createEquations() {
 //   bottomSpacer.classList.add('height-500');
 //   itemContainer.appendChild(bottomSpacer);
 // }
+
+function oneSec() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('resolved');
+    }, 1000);
+  });
+}
+
+
+async function countdownStart() {
+  countdown.textContent = 3;
+  while(countdown.textContent> 0) {
+    
+    const result = await oneSec();
+    countdown.textContent--;
+
+
+  }
+  countdown.textContent = 'GO!';
+
+}
+
+
+// navigate from splash page to acountdown PAge
+
+function showCountdown() {
+  countdownPage.hidden = false;
+  splashPage.hidden = true;
+  countdownStart();
+  
+
+}
+
+function getRadioValue() {
+  let radioValue;
+  radioInputs.forEach((radioInput) => {
+    if(radioInput.checked) {
+      radioValue = radioInput.value;
+      
+    }
+  });
+  return radioValue;
+}
+
+function selectQuestionAmount(e) {
+  e.preventDefault();
+  questionAmount = getRadioValue();
+  console.log('question amount: ', questionAmount)
+  if(questionAmount) {
+    showCountdown();
+
+  } 
+  
+}
+
+
+startForm.addEventListener('click', ()=> { 
+  radioContainers.forEach((radioEl) => {
+    // Remove selected labels tyling
+    radioEl.classList.remove('selected-label');
+    // add it back if radioinput is checked
+    if(radioEl.children[1].checked) {
+      radioEl.classList.add('selected-label');
+    }
+})
+});
+
+startForm.addEventListener('submit', selectQuestionAmount)
