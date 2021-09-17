@@ -33,56 +33,90 @@ const wrongFormat = [];
 
 // Scroll
 
+
+// Display game page 
+function showGamePage() {
+  gamePage.hidden = false;
+  countdownPage.hidden = true;
+}
+// Get radnom number
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 // Create Correct/Incorrect Random Equations
 function createEquations() {
   // Randomly choose how many correct equations there should be
-  // const correctEquations = 
+  const correctEquations = getRandomInt(questionAmount)
+  console.log('correct', correctEquations)
   // Set amount of wrong equations
-  // const wrongEquations = 
+  const wrongEquations = questionAmount - correctEquations;
+  console.log('wrong', wrongEquations)
+
   // Loop through, multiply random numbers up to 9, push to array
-  // for (let i = 0; i < correctEquations; i++) {
-  //   firstNumber = 
-  //   secondNumber = 
-  //   const equationValue = firstNumber * secondNumber;
-  //   const equation = `${firstNumber} x ${secondNumber} = ${equationValue}`;
-  //   equationObject = { value: equation, evaluated: 'true' };
-  //   equationsArray.push(equationObject);
-  // }
+  for (let i = 0; i < correctEquations; i++) {
+    firstNumber = getRandomInt(9);
+    secondNumber = getRandomInt(9);
+    const equationValue = firstNumber * secondNumber;
+    const equation = `${firstNumber} x ${secondNumber} = ${equationValue}`;
+    equationObject = { value: equation, evaluated: 'true' };
+    equationsArray.push(equationObject);
+  }
   // Loop through, mess with the equation results, push to array
-  // for (let i = 0; i < wrongEquations; i++) {
-  //   firstNumber = 
-  //   secondNumber = 
-  //   const equationValue = firstNumber * secondNumber;
-  //   wrongFormat[0] = `${firstNumber} x ${secondNumber + 1} = ${equationValue}`;
-  //   wrongFormat[1] = `${firstNumber} x ${secondNumber} = ${equationValue - 1}`;
-  //   wrongFormat[2] = `${firstNumber + 1} x ${secondNumber} = ${equationValue}`;
-  //   const formatChoice = 
-  //   const equation = wrongFormat[formatChoice];
-  //   equationObject = { value: equation, evaluated: 'false' };
-  //   equationsArray.push(equationObject);
-  // }
+  for (let i = 0; i < wrongEquations; i++) {
+    firstNumber = getRandomInt(9);
+    secondNumber = getRandomInt(9);
+    const equationValue = firstNumber * secondNumber;
+    wrongFormat[0] = `${firstNumber} x ${secondNumber + 1} = ${equationValue}`;
+    wrongFormat[1] = `${firstNumber} x ${secondNumber} = ${equationValue - 1}`;
+    wrongFormat[2] = `${firstNumber + 1} x ${secondNumber} = ${equationValue}`;
+    const formatChoice = getRandomInt(3);
+    const equation = wrongFormat[formatChoice];
+    equationObject = { value: equation, evaluated: 'false' };
+    equationsArray.push(equationObject);
+  }
+  shuffle(equationsArray);
+}
+
+// Add equations to dom
+function equationsToDOM() {
+  equationsArray.forEach((equation) => {
+    // item
+    const item = document.createElement('div');
+    item.classList.add('item');
+    // equstion text
+    const equationText = document.createElement('h1');
+    equationText.textContent = equation.value;
+  // append
+  item.appendChild(equationText);
+  itemContainer.appendChild(item);
+
+  })
 }
 
 // Dynamically adding correct/incorrect equations
-// function populateGamePage() {
-//   // Reset DOM, Set Blank Space Above
-//   itemContainer.textContent = '';
-//   // Spacer
-//   const topSpacer = document.createElement('div');
-//   topSpacer.classList.add('height-240');
-//   // Selected Item
-//   const selectedItem = document.createElement('div');
-//   selectedItem.classList.add('selected-item');
-//   // Append
-//   itemContainer.append(topSpacer, selectedItem);
+function populateGamePage() {
+  // Reset DOM, Set Blank Space Above
+  itemContainer.textContent = '';
+  // Spacer
+  const topSpacer = document.createElement('div');
+  topSpacer.classList.add('height-240');
+  // Selected Item
+  const selectedItem = document.createElement('div');
+  selectedItem.classList.add('selected-item');
+  // Append
+  itemContainer.append(topSpacer, selectedItem);
 
-//   // Create Equations, Build Elements in DOM
+  // Create Equations, Build Elements in DOM
+  createEquations();
+  equationsToDOM();
 
-//   // Set Blank Space Below
-//   const bottomSpacer = document.createElement('div');
-//   bottomSpacer.classList.add('height-500');
-//   itemContainer.appendChild(bottomSpacer);
-// }
+  // Set Blank Space Below
+  const bottomSpacer = document.createElement('div');
+  bottomSpacer.classList.add('height-500');
+  itemContainer.appendChild(bottomSpacer);
+}
 
 function oneSec() {
   return new Promise(resolve => {
@@ -113,7 +147,8 @@ function showCountdown() {
   countdownPage.hidden = false;
   splashPage.hidden = true;
   countdownStart();
-  
+  populateGamePage();
+  setTimeout(showGamePage, 400);
 
 }
 
