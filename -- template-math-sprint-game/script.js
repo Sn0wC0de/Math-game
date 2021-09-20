@@ -32,10 +32,78 @@ const wrongFormat = [];
 
 // Time
 
+let timer;
+let timePlayed = 0;
+let baseTime = 0;
+let penalty = 0;
+let finalTime = 0;
+let finalTimeDisplay = '0.0s'
+let correctAnswerNumb = 0;
+
+// Scroll
+let valueY = 0;
+
+// show scores page
+
+function showScorePage() {
+  gamePage.hidden = true;
+  scorePage.hidden = false;
+}
+
+// scores to DOM 
+
+function scoresToDOM() {
+  finalTimeDisplay = finalTime.toFixed(1);
+  baseTime = timePlayed.toFixed(1);
+  penaltyTime =penaltyTime.toFixed(1);
+  baseTimeEl.textContent = `Base Time: ${baseTime}s`;
+  penaltyTimeEl.textContent = `penalty: ${penalty}s`;
+  finalTimeEl.textContent = `${finalTime}s`;
+  showScorePage();
+
+}
+
+// stop Timer, process results, go to score Page
+
+function checkTime() {
+  if(playerGuessArray.length == questionAmount) {
+    console.log('player guess array', playerGuessArray)
+    clearInterval(timer);
+    // check for wrong answers and add penalty time
+    for(let i=0; i < playerGuessArray.length; i++) {
+      console.log('eq', equationsArray[i].evaluated)
+      console.log('pl', playerGuessArray[i] )
+      playerGuessArray[i] == equationsArray[i].evaluated ? correctAnswerNumb++ : penalty = penalty + 1.5;
+    }
+    console.log('penalty', penalty)
+    finalTime = penalty + timePlayed;
+    scoresToDOM();
+    }
+  }
+    
+
+// add tenth of a second to timePlayed
+
+function addTime() {
+  timePlayed += 0.1;
+  checkTime();
+}
+
+// start timer when game page is clicked
+
+function stratTimer() {
+  // reset times
+  timePlayed = 0;
+  penaltyTime = 0;
+  finalTime = 0;
+  timer = setInterval(addTime,100);
+  gamePage.removeEventListener('click',stratTimer);
+}
+
 // scroll, store user selection in playerGuessArray
 
 function select(guessedTrue) {
-  console.log('player guess array', playerGuessArray)
+  
   // scroll 80 px
   valueY += 80;
   itemContainer.scroll(0,valueY);
@@ -43,8 +111,7 @@ function select(guessedTrue) {
   return guessedTrue ? playerGuessArray.push('true') : playerGuessArray.push('false');
 }
 
-// Scroll
-let valueY = 0;
+
 
 
 // Display game page 
@@ -199,4 +266,5 @@ startForm.addEventListener('click', ()=> {
 })
 });
 
-startForm.addEventListener('submit', selectQuestionAmount)
+startForm.addEventListener('submit', selectQuestionAmount);
+gamePage.addEventListener('click', stratTimer);
