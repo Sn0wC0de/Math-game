@@ -22,7 +22,7 @@ const playAgainBtn = document.querySelector('.play-again');
 
 let questionAmount = 0;
 let equationsArray = [];
-playerGuessArray =[];
+let playerGuessArray =[];
 
 // Game Page
 let firstNumber = 0;
@@ -43,11 +43,27 @@ let correctAnswerNumb = 0;
 // Scroll
 let valueY = 0;
 
-// show scores page
+// reset the game
 
+function playAgain() {
+  
+  gamePage.addEventListener('click',stratTimer);
+  scorePage.hidden = true;
+  splashPage.hidden = false;
+  equationsArray = [];
+  playerGuessArray = [];
+  penalty = 0;
+  valueY = 0;
+
+  
+}
+
+// show scores page
 function showScorePage() {
+  playAgainBtn.disabled = true;
   gamePage.hidden = true;
   scorePage.hidden = false;
+  setTimeout(()=>{playAgainBtn.disabled = false}, 1000);
 }
 
 // scores to DOM 
@@ -58,7 +74,7 @@ function scoresToDOM() {
   penaltyTime =penaltyTime.toFixed(1);
   baseTimeEl.textContent = `Base Time: ${baseTime}s`;
   penaltyTimeEl.textContent = `penalty: ${penalty}s`;
-  finalTimeEl.textContent = `${finalTime}s`;
+  finalTimeEl.textContent = `${finalTimeDisplay}s`;
   showScorePage();
 
 }
@@ -75,8 +91,9 @@ function checkTime() {
       console.log('pl', playerGuessArray[i] )
       playerGuessArray[i] == equationsArray[i].evaluated ? correctAnswerNumb++ : penalty = penalty + 1.5;
     }
-    console.log('penalty', penalty)
+    console.log('penalty', penalty);
     finalTime = penalty + timePlayed;
+    console.log("final time", finalTime);
     scoresToDOM();
     }
   }
@@ -116,8 +133,10 @@ function select(guessedTrue) {
 
 // Display game page 
 function showGamePage() {
+  
   gamePage.hidden = false;
   countdownPage.hidden = true;
+  itemContainer.scrollTo(0, 0);
 }
 // Get radnom number
 
