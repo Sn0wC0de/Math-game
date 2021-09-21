@@ -60,10 +60,10 @@ function playAgain() {
 
 // show scores page
 function showScorePage() {
-  playAgainBtn.disabled = true;
+  playAgainBtn.hidden = true;
   gamePage.hidden = true;
   scorePage.hidden = false;
-  setTimeout(()=>{playAgainBtn.disabled = false}, 1000);
+  setTimeout(()=>{playAgainBtn.hidden = false}, 1000);
 }
 
 // scores to DOM 
